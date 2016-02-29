@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.generic import View
+from django.http import HttpResponse
 
 from .forms import MathForm
 
@@ -13,9 +14,12 @@ def sub(x, y):
 
 def mul(x, y):
     return x * y
+
 def div(x, y):
     return x / y
 
+def exp(x, y):
+    return x ** y
 
 
 class IndexView(View):
@@ -23,8 +27,11 @@ class IndexView(View):
 
     def post(self, request):
         """Calculate the digits entered by user"""
-        left_side = int(request.POST['left_side'])
-        right_side = int(request.POST['right_side'])
+        try:
+            left_side = float(request.POST['left_side'])
+            right_side = float(request.POST['right_side'])
+        except ValueError:
+            return render(request, 'main/error.html')
         if request.POST['operator'] == "+":
             total = add(left_side, right_side)
         elif request.POST['operator'] == '-':
@@ -32,8 +39,12 @@ class IndexView(View):
         elif request.POST['operator'] == '*':
             total = mul(left_side, right_side)
         elif request.POST['operator'] == '/':
-            total = div(left_side, right_side)
-        print(total)
+            try:
+                total = div(left_side, right_side)
+            except ZeroDivisionError:
+                return render(request, 'main/fail.html')
+        elif request.POST['operator'] == '^':
+            total = exp(left_side, right_side)
         return render(request, 'main/index.html', {'total': total})
 
     def get(self, request):

@@ -10,11 +10,17 @@
       <option value="-" name="-">-</option>
       <option value="*" name+"*">*</option>
       <option value="/" name="/">/</option>
+      <option value="^" name="^">^</option>
+      <option value="sqrt" name=sqrt">sqrt</option>
     </select>
     <input type="text" name="right_side" placeholder="Enter Digit">
     <span><input type="submit" value="Calculate" class="btn btn-success">
       <a href="{% url 'index' %}" class="btn btn-danger">Reset</a>
     </span>
+    {% if error %}
+      {{ error }}
+    {% endif %}
+    <div>
     {{ total | linebreaks }}
 
 
