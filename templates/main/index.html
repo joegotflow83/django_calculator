@@ -4,24 +4,20 @@
   <h1>Check out my calculator!</h1>
   <form method="post" action="/">
     {% csrf_token %}
-    <input type="text" name="left_side" placeholder="Enter Digit">
+    <input type="text" name="left_side" placeholder="Enter Digit" value={{ total }}>
     <select name="operator">
       <option value="+" name="+">+</option>
       <option value="-" name="-">-</option>
       <option value="*" name+"*">*</option>
       <option value="/" name="/">/</option>
       <option value="^" name="^">^</option>
-      <option value="sqrt" name=sqrt">sqrt</option>
     </select>
     <input type="text" name="right_side" placeholder="Enter Digit">
     <span><input type="submit" value="Calculate" class="btn btn-success">
       <a href="{% url 'index' %}" class="btn btn-danger">Reset</a>
     </span>
-    {% if error %}
-      {{ error }}
-    {% endif %}
     <div>
-    {{ total | linebreaks }}
-
+    <br>
+    <h3>Your result is: {{ total }} </h3>
 
 {% endblock %}
